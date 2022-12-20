@@ -1,4 +1,4 @@
-import { INCREMENT } from "./actionType";
+import { DECREMENT, INCREMENT } from "./actionType";
 
 const initialState = {
   product1: { amount: 20 },
@@ -15,8 +15,11 @@ const productReducer = (state = initialState, action) => {
           return {
             ...state,
             product1: { ...state.product1, amount: state.product1.amount + 1 },
-            product2: { ...state.product2 },
-            product3: { ...state.product3 },
+          };
+        case DECREMENT:
+          return {
+            ...state,
+            product1: { ...state.product1, amount: state.product1.amount - 1 },
           };
 
         default:
@@ -27,9 +30,14 @@ const productReducer = (state = initialState, action) => {
         case INCREMENT:
           return {
             ...state,
-            product1: { ...state.product1 },
+
             product2: { ...state.product2, amount: state.product2.amount + 1 },
-            product3: { ...state.product3 },
+          };
+        case DECREMENT:
+          return {
+            ...state,
+
+            product2: { ...state.product2, amount: state.product2.amount - 1 },
           };
 
         default:
@@ -40,9 +48,14 @@ const productReducer = (state = initialState, action) => {
         case INCREMENT:
           return {
             ...state,
-            product1: { ...state.product1 },
-            product2: { ...state.product2 },
+
             product3: { ...state.product3, amount: state.product3.amount + 1 },
+          };
+        case DECREMENT:
+          return {
+            ...state,
+
+            product3: { ...state.product3, amount: state.product3.amount - 1 },
           };
 
         default:

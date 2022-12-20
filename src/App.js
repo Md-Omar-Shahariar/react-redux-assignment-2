@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { increment } from "./redux/product/action";
+import { decrement } from "./redux/product/action";
 
 function App() {
   const count1 = useSelector((state) => state.product1.amount);
@@ -9,8 +9,8 @@ function App() {
   const count3 = useSelector((state) => state.product3.amount);
   const dispatch = useDispatch();
 
-  const incrementHandler = () => {
-    dispatch(increment(2));
+  const decrementHandler = (value) => {
+    dispatch(decrement(value));
   };
   console.log(count1);
   return (
@@ -30,7 +30,7 @@ function App() {
               </div>
               <div class="text-lg font-semibold">
                 <button
-                  onClick={() => incrementHandler(1)}
+                  onClick={() => decrementHandler(1)}
                   class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2 rounded-full inline-flex items-center"
                 >
                   <svg
