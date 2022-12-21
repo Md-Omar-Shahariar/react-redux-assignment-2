@@ -34,7 +34,7 @@ function App() {
   };
   const incrementHandler = (value) => {
     if (eval(`cart${value}`) <= 0) {
-      alert("Haven't Add any Product");
+      alert("Can't Reduce This Product");
       return;
     }
     dispatch(increment(value));
