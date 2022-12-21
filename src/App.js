@@ -1,18 +1,50 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { decrement } from "./redux/product/action";
+import { decrement, increment } from "./redux/product/action";
+import { useEffect, useState } from "react";
+import { cartDecrement, cartIncrement } from "./redux/cart/action";
 
 function App() {
-  const count1 = useSelector((state) => state.product1.amount);
-  const count2 = useSelector((state) => state.product2.amount);
-  const count3 = useSelector((state) => state.product3.amount);
-  const dispatch = useDispatch();
+  const count1 = useSelector((state) => state.product.product1.amount);
+  const count2 = useSelector((state) => state.product.product2.amount);
+  const count3 = useSelector((state) => state.product.product3.amount);
+  const cart1 = useSelector((state) => state.cart.product1.amount);
+  const cart2 = useSelector((state) => state.cart.product2.amount);
+  const cart3 = useSelector((state) => state.cart.product3.amount);
+  const cart1price = useSelector((state) => state.cart.product1.price);
+  const cart2price = useSelector((state) => state.cart.product2.price);
+  const cart3price = useSelector((state) => state.cart.product3.price);
+  const [totalItem, setTotalItem] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
+  const dispatch = useDispatch();
+  console.log(cart1);
   const decrementHandler = (value) => {
+    console.log(count1);
+    console.log(count2);
+    console.log(count3);
+
+    if (eval(`count${value}`) < 1) {
+      alert("Don't Have Sufficient Product");
+      return;
+    }
     dispatch(decrement(value));
+    dispatch(cartIncrement(value));
   };
-  console.log(count1);
+  const incrementHandler = (value) => {
+    if (eval(`cart${value}`) <= 0) {
+      alert("Haven't Add any Product");
+      return;
+    }
+    dispatch(increment(value));
+    dispatch(cartDecrement(value));
+  };
+  useEffect(() => {
+    setTotalItem(cart1 + cart2 + cart3);
+    setTotalPrice(cart1 * cart1price + cart2 * cart2price + cart3 * cart3price);
+  }, [decrementHandler, incrementHandler]);
+
   return (
     <div class="bg-gray-50 h-full md:h-screen">
       <div class="grid place-items-center">
@@ -58,7 +90,10 @@ function App() {
                 <p class="text-gray-400 text-base">Tk 9,300</p>
               </div>
               <div class="text-lg font-semibold">
-                <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2 rounded-full inline-flex items-center">
+                <button
+                  onClick={() => decrementHandler(2)}
+                  class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2 rounded-full inline-flex items-center"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -84,7 +119,10 @@ function App() {
                 <p class="text-gray-400 text-base">Tk 36,500</p>
               </div>
               <div class="text-lg font-semibold">
-                <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2 rounded-full inline-flex items-center">
+                <button
+                  onClick={() => decrementHandler(3)}
+                  class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2 rounded-full inline-flex items-center"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -112,7 +150,10 @@ function App() {
               </div>
               <div class="text-lg py-2">
                 <div class="flex flex-row space-x-2 w-full items-center rounded-lg">
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <button
+                    onClick={() => incrementHandler(1)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -128,8 +169,11 @@ function App() {
                       />
                     </svg>
                   </button>
-                  <p>0</p>
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <p>{cart1}</p>
+                  <button
+                    onClick={() => decrementHandler(1)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -155,7 +199,10 @@ function App() {
               </div>
               <div class="text-lg py-2">
                 <div class="flex flex-row space-x-2 w-full items-center rounded-lg">
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <button
+                    onClick={() => incrementHandler(2)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -171,8 +218,11 @@ function App() {
                       />
                     </svg>
                   </button>
-                  <p>0</p>
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <p>{cart2}</p>
+                  <button
+                    onClick={() => decrementHandler(2)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -198,7 +248,10 @@ function App() {
               </div>
               <div class="text-lg py-2">
                 <div class="flex flex-row space-x-2 w-full items-center rounded-lg">
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <button
+                    onClick={() => incrementHandler(3)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -214,8 +267,11 @@ function App() {
                       />
                     </svg>
                   </button>
-                  <p>0</p>
-                  <button class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center">
+                  <p>{cart3}</p>
+                  <button
+                    onClick={() => decrementHandler(3)}
+                    class="focus:outline-none bg-purple-700 hover:bg-purple-800 text-white font-bold py-1 px-1 rounded-full inline-flex items-center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-4 w-4"
@@ -238,7 +294,7 @@ function App() {
             <div class="flex justify-center items-center text-center">
               <div class="text-xl font-semibold">
                 <p>Total Item</p>
-                <p class="text-5xl">0</p>
+                <p class="text-5xl">{totalItem}</p>
               </div>
             </div>
           </div>
@@ -246,7 +302,7 @@ function App() {
             <div class="flex justify-center items-center text-center">
               <div class="text-xl font-semibold">
                 <p>Total Price</p>
-                <p class="text-5xl">0</p>
+                <p class="text-5xl">{totalPrice}</p>
               </div>
             </div>
           </div>
