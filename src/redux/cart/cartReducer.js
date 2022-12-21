@@ -1,12 +1,17 @@
 import { DECREMENT, INCREMENT } from "./actionType";
 
 const initialState = {
-  product1: { amount: 20, price: 35500 },
-  product2: { amount: 35, price: 9300 },
-  product3: { amount: 72, price: 36500 },
+  product1: { amount: 0, price: 35500 },
+  product2: { amount: 0, price: 9300 },
+  product3: { amount: 0, price: 36500 },
+  totalItem: this.product1.amount + this.product2.amount + this.product3.amount,
+  totalPrice:
+    this.product1.amount * this.product1.price +
+    this.product2.amount * this.product2.price +
+    this.product3.amount * this.product3.price,
 };
 
-const productReducer = (state = initialState, action) => {
+const cartReducer = (state = initialState, action) => {
   const id = action.payload;
   switch (id) {
     case 1:
@@ -66,5 +71,3 @@ const productReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default productReducer;
